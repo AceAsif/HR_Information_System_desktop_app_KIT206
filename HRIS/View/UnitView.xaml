@@ -1,0 +1,193 @@
+﻿<UserControl
+    x:Class="HRIS.View.UnitView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:HRIS.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:unitController="clr-namespace:HRIS.Controller"
+    Width="820"
+    Height="394"
+    mc:Ignorable="d">
+
+    <Border Padding="5">
+
+        <Grid
+            Name="UnitDetails"
+            Height="Auto"
+            Background="SlateGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2.5*" />
+            </Grid.ColumnDefinitions>
+
+
+
+            <Grid x:Name="User_Options" Margin="0,0,0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="20" />
+                </Grid.RowDefinitions>
+
+                <TextBox
+                    x:Name="UnitNameFilterBox"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    FontSize="12"
+                    TextChanged="NameFilterTextChanged">
+                    <TextBox.Style>
+                        <Style xmlns:sys="clr-namespace:System;assembly=mscorlib" TargetType="TextBox">
+                            <Style.Resources>
+                                <VisualBrush
+                                    x:Key="CueBannerBrush"
+                                    AlignmentX="Left"
+                                    AlignmentY="Center"
+                                    Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <Label Content=" Search by unit code/title" Foreground="LightGray" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Foreground="Black"
+                    Text="Campus: " />
+                <ComboBox
+                    x:Name="CampusFilteredBox"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    FontSize="12"
+                    SelectionChanged="CampusFilterSelectionChanged" />
+            </Grid>
+
+            <ListBox
+                x:Name="UnitList"
+                Margin="0,49,0,0"
+                FontSize="14"
+                Foreground="DarkBlue"
+                ItemsSource="{Binding Source={StaticResource MyUnitList}}"
+                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                SelectionChanged="UnitListSelectionChanged">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Cursor="Hand">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="UnitCode" />
+                                    <Binding Path="UnitTitle" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ListBox>
+
+            <!--  Unit Classes View  -->
+
+            <TextBlock
+                Grid.Column="1"
+                Margin="5,0,0,0"
+                FontSize="14"
+                FontWeight="Bold"
+                Foreground="Black"
+                Text="Unit Details" />
+            <ListView
+                x:Name="UnitDayandTime"
+                Grid.Column="1"
+                Height="Auto"
+                MinHeight="100"
+                Margin="4.667,49,5,0"
+                HorizontalContentAlignment="Stretch"
+                ItemsSource="{Binding Source={StaticResource MyUnitClassList}}"
+                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                SelectionChanged="UnitCoordinatorSelected">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn
+                            Width="85"
+                            DisplayMemberBinding="{Binding Campus}"
+                            Header="Campus" />
+                        <GridViewColumn
+                            Width="70"
+                            DisplayMemberBinding="{Binding Type}"
+                            Header="Type" />
+                        <GridViewColumn
+                            Width="50"
+                            DisplayMemberBinding="{Binding Room}"
+                            Header="Room" />
+                        <GridViewColumn
+                            Width="85"
+                            DisplayMemberBinding="{Binding DayAndTime.Day}"
+                            Header="Day" />
+                        <GridViewColumn Width="70" Header="Start">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Cursor="Hand">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0:00}:{1:00}">
+                                                <Binding Path="DayAndTime.Start.Hours" />
+                                                <Binding Path="DayAndTime.Start.Minutes" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="70" Header="End">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Cursor="Hand">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0:00}:{1:00}">
+                                                <Binding Path="DayAndTime.End.Hours" />
+                                                <Binding Path="DayAndTime.End.Minutes" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="150" Header="Coordinator">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Cursor="Hand">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}, {1} ({2})">
+                                                <Binding Path="Coordinator.FamilyName" />
+                                                <Binding Path="Coordinator.GivenName" />
+                                                <Binding Path="Coordinator.Title" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </Grid>
+    </Border>
+</UserControl>

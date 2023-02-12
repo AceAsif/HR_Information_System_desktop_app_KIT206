@@ -1,0 +1,34 @@
+﻿<Application
+    x:Class="HRIS.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controller="clr-namespace:HRIS.Controller"
+    xmlns:local="clr-namespace:HRIS"
+    xmlns:view="clr-namespace:HRIS.View"
+    StartupUri="MainWindow.xaml">
+    <Application.Resources>
+
+        <controller:StaffController x:Key="staffControl" />
+        <ObjectDataProvider
+            x:Key="MyStaffList"
+            MethodName="GetStaff"
+            ObjectInstance="{StaticResource staffControl}" />
+
+        <controller:UnitController x:Key="unitControl" />
+        <ObjectDataProvider
+            x:Key="MyUnitList"
+            MethodName="GetUnitList"
+            ObjectInstance="{StaticResource unitControl}" />
+        <ObjectDataProvider
+            x:Key="MyUnitClassList"
+            MethodName="GetUnitClasses"
+            ObjectInstance="{StaticResource unitControl}" />
+
+        <controller:HeatMapController x:Key="heatmapcontrol" />
+        <ObjectDataProvider
+            x:Key="ColourOptions"
+            MethodName="FetchColourOption"
+            ObjectInstance="{StaticResource heatmapcontrol}" />
+
+    </Application.Resources>
+</Application>

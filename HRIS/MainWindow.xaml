@@ -1,0 +1,24 @@
+﻿<Window x:Class="HRIS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HRIS"
+        xmlns:controller="clr-namespace:HRIS.Controller"
+        xmlns:view="clr-namespace:HRIS.View"
+        mc:Ignorable="d"
+        Title="HRIS: Human Resources Information System" Height="500" Width="800">
+    
+
+        <TabControl Name="HrisTabs">
+            <TabItem Header="Staff" FontSize="14">
+            <view:StaffView x:Name="StaffListUserControl" Height="Auto" Width="Auto" />
+            </TabItem>
+            <TabItem Header="Units" FontSize="14">
+            <view:UnitView x:Name="UnitUserControl" Height="Auto" Width="Auto" />
+            </TabItem>
+        <TabItem Header="Heat Maps" FontSize="14">
+            <view:HeatMapView x:Name="HeatMapUserControl" Height="Auto" Width="Auto"/>
+        </TabItem>
+    </TabControl>
+</Window>
